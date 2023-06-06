@@ -1,6 +1,5 @@
+import 'package:catering_plus/ui/view/login.dart';
 import 'package:flutter/material.dart';
-
-import 'ui/view/login.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -36,6 +35,11 @@ class Start extends StatefulWidget {
 }
 
 class _InicioState extends State<Start> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

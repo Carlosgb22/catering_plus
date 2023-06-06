@@ -1,11 +1,14 @@
-import 'package:catering_plus/core/services/api_service.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-final ApiService apiService = ApiService();
+import '../config/config.dart';
 
+final dio = Dio();
 Future<bool> getLoginByIdHttp(dni, pass) async {
-  var response =
-      await apiService.dio.get("http://localhost:8080/login/$dni/$pass");
+  var response = await dio.get("http://$ip:$port/login/$dni/$pass");
   if (response.statusCode == 200) {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString('dni', dni);
     return response.data;
   } else {
     throw Exception('Error al obtener el JSON');

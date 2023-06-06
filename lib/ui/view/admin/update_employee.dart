@@ -97,7 +97,7 @@ class _UpdateEmployeeState extends State<UpdateEmployee> {
                           const SizedBox(width: 8),
                           SizedBox(
                             width: Platform.isAndroid || Platform.isIOS
-                                ? MediaQuery.of(context).size.width * 0.8
+                                ? MediaQuery.of(context).size.width * 0.7
                                 : MediaQuery.of(context).size.width * 0.15,
                             child: TextField(
                               controller: _nameController,
@@ -126,7 +126,7 @@ class _UpdateEmployeeState extends State<UpdateEmployee> {
                           const SizedBox(width: 8),
                           SizedBox(
                             width: Platform.isAndroid || Platform.isIOS
-                                ? MediaQuery.of(context).size.width * 0.8
+                                ? MediaQuery.of(context).size.width * 0.7
                                 : MediaQuery.of(context).size.width * 0.15,
                             child: TextField(
                               controller: _familyNameController,

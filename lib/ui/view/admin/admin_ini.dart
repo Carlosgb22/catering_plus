@@ -1,3 +1,4 @@
+import 'package:catering_plus/core/provider/session_provider.dart';
 import 'package:catering_plus/ui/view/admin/add_employee.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,13 @@ class _AdminState extends State<Admin> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Empleados"),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  closeSession(context);
+                },
+                icon: const Icon(Icons.logout))
+          ],
         ),
         //FutureBuilder que recibe los empleados
         body: FutureBuilder<List<Employee>>(

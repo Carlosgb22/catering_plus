@@ -29,11 +29,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  cookie_jar: ^4.0.3
   dio: ^5.1.2
-  dio_cookie_manager: ^3.0.0
   flutter:
     sdk: flutter
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -46,13 +45,13 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
-platforms:
-    android: true
-    ios: true
-    macos: true
-    linux: true
-    windows: true
-    web: false
+# platforms:
+#     android: true
+#     ios: true
+#     macos: true
+#     linux: true
+#     windows: true
+#     web: false
 
 flutter_icons:
   ios: true

@@ -1,12 +1,28 @@
-import 'package:catering_plus/core/services/api_service.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-final ApiService apiService = ApiService();
+import '../config/config.dart';
+
+final dio = Dio();
 
 Future<dynamic> checkSessionHttp() async {
-  var response = await apiService.dio.get("http://localhost:8080/checkSession");
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String? dni = sharedPreferences.getString('dni');
+  var response = await dio.get("http://$ip:$port/checkSession/$dni");
   if (response.statusCode == 200) {
     return response.data;
   } else {
-    throw Exception('Error al obtener el JSON');
+    return false;
+  }
+}
+
+Future<bool> closeSessionHttp() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.remove('dni');
+  var response = await dio.get("http://$ip:$port/closeSession");
+  if (response.statusCode == 200) {
+    return true;
+  } else {
+    return false;
   }
 }

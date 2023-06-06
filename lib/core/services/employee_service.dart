@@ -1,13 +1,12 @@
-import 'package:catering_plus/core/services/api_service.dart';
+import 'package:catering_plus/core/config/config.dart';
 import 'package:dio/dio.dart';
 
 import '../models/employee_model.dart';
 
-final ApiService apiService = ApiService();
+final dio = Dio();
 
 Future<Employee> getEmployeeByIdHttp(dni) async {
-  var response =
-      await apiService.dio.get("http://localhost:8080/employee/$dni");
+  var response = await dio.get("http://$ip:$port/employee/$dni");
   if (response.statusCode == 200) {
     return Employee.fromJson(response.data);
   } else {
@@ -16,8 +15,7 @@ Future<Employee> getEmployeeByIdHttp(dni) async {
 }
 
 Future<List<Employee>> getAllEmployeesHttp(idCatering) async {
-  var response = await apiService.dio
-      .get("http://localhost:8080/employee/all/$idCatering");
+  var response = await dio.get("http://$ip:$port/employee/all/$idCatering");
   if (response.statusCode == 200) {
     response.data;
     final employeeList =
@@ -29,17 +27,17 @@ Future<List<Employee>> getAllEmployeesHttp(idCatering) async {
 }
 
 addEmployeeHttp(Employee emp) async {
-  await apiService.dio.post("http://localhost:8080/employee/add",
+  await dio.post("http://$ip:$port/employee/add",
       data: emp.toJson(),
       options: Options(headers: {"Content-type": "application/json"}));
 }
 
 updateEmployeeHttp(Employee emp) async {
-  await apiService.dio.post("http://localhost:8080/employee/${emp.dni}/update",
+  await dio.post("http://$ip:$port/employee/${emp.dni}/update",
       data: emp.toJson(),
       options: Options(headers: {"Content-type": "application/json"}));
 }
 
 deleteEmployeeHttp(dni) async {
-  await apiService.dio.delete("http://localhost:8080/employee/$dni");
+  await dio.delete("http://$ip:$port/employee/$dni");
 }
