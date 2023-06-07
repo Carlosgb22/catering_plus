@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/models/employee_model.dart';
+import '../../../core/provider/session_provider.dart';
 
 class Clerk extends StatefulWidget {
   final Employee emp;
@@ -22,6 +23,18 @@ class _ClerkState extends State<Clerk> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Bienvenido ${emp.name}"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                closeSession(context);
+              },
+              icon: const Icon(Icons.logout),
+            )
+          ],
+        ),
+        body: Container());
   }
 }

@@ -1,4 +1,5 @@
 import 'package:catering_plus/core/models/employee_model.dart';
+import 'package:catering_plus/core/provider/login_provider.dart';
 
 import '../services/employee_service.dart';
 
@@ -20,4 +21,5 @@ updateEmployee(Employee employee) {
 
 addEmployee(Employee employee) {
   addEmployeeHttp(employee);
+  addLogin(employee.dni);
 }

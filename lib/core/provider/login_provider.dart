@@ -10,6 +10,14 @@ Future<bool> login(String dni, String password) async {
   return await getLoginByIdHttp(dni, password);
 }
 
+addLogin(String dni) async {
+  return await addLoginHttp(dni);
+}
+
+deleteLogin(String dni) async {
+  return await deleteLoginHttp(dni);
+}
+
 redirectLogin(Employee emp, context) async {
   if (emp.admin == 1) {
     Navigator.pushAndRemoveUntil(

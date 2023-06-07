@@ -1,10 +1,14 @@
 import 'dart:io';
 
 import 'package:catering_plus/core/models/employee_model.dart';
+import 'package:catering_plus/core/provider/login_provider.dart';
 import 'package:catering_plus/ui/view/admin/admin_ini.dart';
 import 'package:catering_plus/ui/view/admin/manage_emp_profile.dart';
+import 'package:catering_plus/ui/view/employee/event_view.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../core/models/event_model.dart';
 import '../core/provider/employee_provider.dart';
 
 class EmployeeButton extends StatelessWidget {
@@ -109,6 +113,7 @@ class EmployeeButton extends StatelessWidget {
               //Cuando pulsas la papelera se borra el empleado indicado
               onPressed: () {
                 deleteEmployee(employee.dni);
+                deleteLogin(employee.dni);
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => Admin(emp: emp)),
@@ -128,4 +133,88 @@ class EmployeeButton extends StatelessWidget {
       );
     }
   }
+}
+
+class LegendItem extends StatelessWidget {
+  final String text;
+  final Color color;
+
+  const LegendItem({
+    super.key,
+    required this.text,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          color: color,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          text,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Widget buildEventCard(context, Event event) {
+  return Card(
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EventView(event: event),
+            ));
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Fecha del evento:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  DateFormat('dd-MM-yyyy').format(event.date),
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Lugar:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  event.place,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

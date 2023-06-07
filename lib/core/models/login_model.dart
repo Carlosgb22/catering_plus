@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Login {
   final String dni;
   final String password;
@@ -15,13 +17,11 @@ class Login {
     );
   }
 
-  // ///Metodo para obtener un json a partir de un dispositivo
-  // String toJson() {
-  //   return '{"id": "$id", "name": "$name", "userUid": "$userUid", "imgcon": "$imgcon", "imgdiscon": "$imgdiscon", "imgwait": "$imgwait"}';
-  // }
-
-  // @override
-  // String toString() {
-  //   return 'Device{id: $id, name: $name, userUid: $userUid, imgcon: $imgcon, imgdiscon: $imgdiscon, imgwait: $imgwait}';
-  // }
+  String toJson() {
+    final Map<String, dynamic> data = {
+      'DNI': dni,
+      'Password': password,
+    };
+    return jsonEncode(data);
+  }
 }

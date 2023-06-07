@@ -29,25 +29,50 @@ class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Empleados"),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  closeSession(context);
-                },
-                icon: const Icon(Icons.logout))
-          ],
-        ),
-        //FutureBuilder que recibe los empleados
-        body: FutureBuilder<List<Employee>>(
-            future: _employeeList,
-            builder: (context, snapshot) {
-              //snapshot seria el futuro, si tiene datos se muestran los empleados en un ListView
-              if (snapshot.hasData) {
-                List<Employee> list = <Employee>[];
-                for (var data in snapshot.data!) {
-                  list.add(Employee(
+      appBar: AppBar(
+        title: Text("Bienvenido ${emp.name}"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              closeSession(context);
+            },
+            icon: const Icon(Icons.logout),
+          )
+        ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            color: Colors.yellow, // Color de la leyenda
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LegendItem(
+                  text: 'Administrador',
+                  color: Colors.red.shade200,
+                ),
+                const SizedBox(width: 16),
+                LegendItem(
+                  text: 'Gestor',
+                  color: Colors.blue.shade200,
+                ),
+                const SizedBox(width: 16),
+                LegendItem(
+                  text: 'Trabajador',
+                  color: Colors.green.shade200,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<Employee>>(
+              future: _employeeList,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Employee> list = <Employee>[];
+                  for (var data in snapshot.data!) {
+                    list.add(Employee(
                       dni: data.dni,
                       idCatering: data.idCatering,
                       name: data.name,
@@ -55,40 +80,44 @@ class _AdminState extends State<Admin> {
                       phone: data.phone,
                       ss: data.ss,
                       clerk: data.clerk,
-                      admin: data.admin));
+                      admin: data.admin,
+                    ));
+                  }
+                  return ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (context, index) {
+                      final item = list[index];
+                      return ListTile(
+                        title: EmployeeButton(employee: item, emp: emp),
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('An error occurred: ${snapshot.error}'),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-                return ListView.builder(
-                  // Deja que ListView sepa cuántos elementos necesita para construir
-                  itemCount: list.length,
-                  // Proporciona una función de constructor. Se crea un dispositivo por cada elemento
-                  itemBuilder: (context, index) {
-                    final item = list[index];
-                    return ListTile(
-                      //EmployeeButton es un widget personalizado el cual se encutra en widget.dart
-                      title: EmployeeButton(employee: item, emp: emp),
-                    );
-                  },
-                );
-                //Si snapshot tiene errores, te muestra el error en el centro
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('An error occurred: ${snapshot.error}'),
-                );
-                //En el caso de tardar mucho te muestra un indicador de carga
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-        //Te muestra un boton flotante con el simbolo + el cual te permite añadir un empleado
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddEmployee(emp: emp)));
-          },
-          backgroundColor: Colors.blue,
-          child: const Icon(Icons.person_add_alt_1),
-        ));
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddEmployee(emp: emp),
+            ),
+          );
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.person_add_alt_1),
+      ),
+    );
   }
 }
