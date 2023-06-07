@@ -4,7 +4,6 @@ import 'package:flutter_map/flutter_map.dart';
 
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/models/place_model.dart';
 import '../../../core/models/event_model.dart';
@@ -101,20 +100,25 @@ class _EventViewState extends State<EventView> {
         center: eventLocation,
       ),
       nonRotatedChildren: [
-        RichAttributionWidget(
-          attributions: [
-            TextSourceAttribution(
-              'OpenStreetMap contributors',
-              onTap: () =>
-                  launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
-            ),
-          ],
-        ),
-      ],
-      children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.app',
+          additionalOptions: const {
+            'userAgent': 'com.example.app',
+          },
+        ),
+        MarkerLayer(
+          markers: [
+            Marker(
+              width: 80.0,
+              height: 80.0,
+              point: eventLocation,
+              builder: (ctx) => const Icon(
+                Icons.location_pin,
+                color: Colors.red,
+                size: 40.0,
+              ),
+            ),
+          ],
         ),
       ],
     );
