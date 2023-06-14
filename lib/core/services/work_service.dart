@@ -26,6 +26,18 @@ Future<List<Work>> getAllWorksHttp(dni) async {
   }
 }
 
+Future<List<Work>> getAllWorksIdHttp(id) async {
+  var response = await dio.get("http://$ip:$port/work/all/id/$id");
+  if (response.statusCode == 200) {
+    response.data;
+    final workList =
+        (response.data as List).map((e) => Work.fromJson(e)).toList();
+    return workList;
+  } else {
+    throw Exception('Error al obtener el JSON');
+  }
+}
+
 addWorkHttp(Work work) async {
   await dio.post("http://$ip:$port/work/add",
       data: work.toJson(),

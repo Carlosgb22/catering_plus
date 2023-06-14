@@ -1,4 +1,5 @@
 import 'package:catering_plus/ui/view/clerk/place_view.dart';
+import 'package:catering_plus/ui/view/login.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/models/employee_model.dart';
@@ -142,7 +143,34 @@ class _ClerkState extends State<Clerk> {
                             color: Colors.red,
                           ),
                           onPressed: () {
-                            deletePlace(place.name);
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Error'),
+                                content: const Text(
+                                    '¿Está seguro de que desea borrar este lugar?.\nEsta accion es irreversible'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Cancelar'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const Login(),
+                                          ),
+                                          (route) => false);
+                                      deletePlace(place.name);
+                                    },
+                                    child: const Text('Aceptar'),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                         ),
                         onTap: () {

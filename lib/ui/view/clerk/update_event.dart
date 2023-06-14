@@ -287,6 +287,7 @@ class _UpdateEventState extends State<UpdateEvent> {
                       event.assemblyHours = assemblyHours;
                       event.serviceHours = serviceHours;
                       event.openBarHours = openBarHours;
+                      event.revised = revised ? 1 : 0;
                       event.date = DateTime.parse(
                           DateFormat('yyyy-MM-dd HH:mm:ss.SSS')
                               .format(event.date));

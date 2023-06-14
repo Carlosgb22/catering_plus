@@ -21,6 +21,10 @@ Future<List<Work>> getAllWorks(String dni) {
   return getAllWorksHttp(dni);
 }
 
+Future<List<Work>> getAllWorksId(int id) {
+  return getAllWorksHttp(id);
+}
+
 deleteWork(String dni, int id) {
   deleteWorkHttp(dni, id);
 }

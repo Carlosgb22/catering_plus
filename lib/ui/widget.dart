@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:catering_plus/ui/view/clerk/clerk_event_view.dart';
 import 'package:catering_plus/ui/view/clerk/update_event.dart';
+import 'package:catering_plus/ui/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:intl/intl.dart';
@@ -71,7 +72,35 @@ class EmployeeButton extends StatelessWidget {
               ),
               //Cuando pulsas la papelera se borra el empleado indicado
               onPressed: () {
-                deleteEmployee(employee.dni);
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Error'),
+                    content: const Text(
+                        '¿Está seguro de que desea borrar este empleado?.\nEsta accion es irreversible'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancelar'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Admin(emp: emp),
+                              ),
+                              (route) => false);
+                          deleteEmployee(employee.dni);
+                        },
+                        child: const Text('Aceptar'),
+                      ),
+                    ],
+                  ),
+                );
+
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => Admin(emp: emp)),
@@ -520,7 +549,34 @@ Widget buildCategoryWidget(
                       icon: const Icon(Icons.delete),
                       color: Colors.red,
                       onPressed: () {
-                        deleteEvent(event.id!);
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Error'),
+                            content: const Text(
+                                '¿Está seguro de que desea borrar este evento?.\nEsta accion es irreversible'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Cancelar'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Login(),
+                                      ),
+                                      (route) => false);
+                                  deleteEvent(event.id!);
+                                },
+                                child: const Text('Aceptar'),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                     ),
               onTap: () {
