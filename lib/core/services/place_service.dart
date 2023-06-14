@@ -14,8 +14,8 @@ Future<Place> getPlaceByIdHttp(name) async {
   }
 }
 
-Future<List<Place>> getAllPlacesHttp() async {
-  var response = await dio.get("http://$ip:$port/place");
+Future<List<Place>> getAllPlacesHttp(idCatering) async {
+  var response = await dio.get("http://$ip:$port/place/all/$idCatering");
   if (response.statusCode == 200) {
     response.data;
     final eventList =

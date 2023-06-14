@@ -154,6 +154,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             ? MediaQuery.of(context).size.width * 0.8
                             : MediaQuery.of(context).size.width * 0.15,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: _phoneController,
                           style: const TextStyle(
                             fontSize: 18,

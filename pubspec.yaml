@@ -30,6 +30,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   dio: ^5.1.2
+  direct_select: ^2.0.0
   flutter:
     sdk: flutter
   flutter_map: ^5.0.0

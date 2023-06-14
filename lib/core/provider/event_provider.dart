@@ -18,6 +18,6 @@ updateEvent(Event event) {
   updateEventHttp(event);
 }
 
-addEvent(Event event) {
-  addEventHttp(event);
+Future<int> addEvent(Event event) {
+  return addEventHttp(event);
 }

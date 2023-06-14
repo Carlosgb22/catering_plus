@@ -47,4 +47,17 @@ class Employee {
     };
     return jsonEncode(data);
   }
+
+  @override
+  bool operator ==(other) {
+    return other is Employee &&
+        dni == other.dni &&
+        name == other.name &&
+        admin == other.admin &&
+        clerk == other.clerk;
+  }
+
+  @override
+  int get hashCode =>
+      dni.hashCode ^ name.hashCode ^ admin.hashCode ^ clerk.hashCode;
 }

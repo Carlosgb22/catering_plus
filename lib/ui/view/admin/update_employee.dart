@@ -159,6 +159,7 @@ class _UpdateEmployeeState extends State<UpdateEmployee> {
                             ? MediaQuery.of(context).size.width * 0.8
                             : MediaQuery.of(context).size.width * 0.15,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: _phoneController,
                           style: const TextStyle(
                             fontSize: 18,
@@ -178,6 +179,7 @@ class _UpdateEmployeeState extends State<UpdateEmployee> {
                             ? MediaQuery.of(context).size.width * 0.8
                             : MediaQuery.of(context).size.width * 0.15,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: _ssController,
                           style: const TextStyle(
                             fontSize: 18,

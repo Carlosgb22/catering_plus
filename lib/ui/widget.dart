@@ -1,15 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
+
+import 'package:catering_plus/ui/view/clerk/clerk_event_view.dart';
+import 'package:catering_plus/ui/view/clerk/update_event.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'package:catering_plus/core/models/employee_model.dart';
 import 'package:catering_plus/core/provider/login_provider.dart';
 import 'package:catering_plus/ui/view/admin/admin_ini.dart';
 import 'package:catering_plus/ui/view/admin/manage_emp_profile.dart';
 import 'package:catering_plus/ui/view/employee/event_view.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../core/models/event_model.dart';
 import '../core/provider/employee_provider.dart';
+import '../core/provider/event_provider.dart';
 
 class EmployeeButton extends StatelessWidget {
   final Employee employee;
@@ -216,5 +223,318 @@ Widget buildEventCard(context, Event event) {
         ),
       ),
     ),
+  );
+}
+
+Widget buildEventDetailRow(String label, String value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10.0),
+    child: Row(
+      children: [
+        SizedBox(
+          width: 120.0,
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 18),
+          ),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildMap(LatLng eventLocation, Function() toggleMap) {
+  return GestureDetector(
+    child: Scaffold(
+      backgroundColor: Colors.grey.shade600,
+      body: Stack(
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: FlutterMap(
+                options: MapOptions(
+                  center: eventLocation,
+                ),
+                nonRotatedChildren: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    additionalOptions: const {
+                      'userAgent': 'com.example.app',
+                    },
+                  ),
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        width: 80.0,
+                        height: 80.0,
+                        point: eventLocation,
+                        builder: (ctx) => const Icon(
+                          Icons.location_pin,
+                          color: Colors.red,
+                          size: 40.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: IconButton(
+              icon: const Icon(Icons.close),
+              color: Colors.red,
+              onPressed: toggleMap,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget buildTextFieldRow(String label, String value,
+    {TextEditingController? controller}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 5),
+        TextField(
+          keyboardType: label.compareTo('Teléfono 1:') == 0 ||
+                  label.compareTo('Teléfono 2:') == 0
+              ? TextInputType.number
+              : TextInputType.text,
+          controller: controller,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.all(10.0),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildCheckboxRow(String label, bool value,
+    {ValueChanged<bool>? onChanged}) {
+  return Row(
+    children: [
+      Checkbox(
+        value: value,
+        onChanged:
+            onChanged != null ? (newValue) => onChanged(newValue!) : null,
+      ),
+      Text(label),
+    ],
+  );
+}
+
+Widget buildNumberPickerRow(
+  String label,
+  int value, {
+  required ValueChanged<int> onChanged,
+}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Row(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(width: 10),
+        NumberPicker(
+          value: value,
+          minValue: 0,
+          maxValue: 24,
+          onChanged: onChanged,
+        ),
+      ],
+    ),
+  );
+}
+
+class NumberPicker extends StatefulWidget {
+  final int value;
+  final int minValue;
+  final int maxValue;
+  final ValueChanged<int> onChanged;
+
+  const NumberPicker({
+    Key? key,
+    required this.value,
+    required this.minValue,
+    required this.maxValue,
+    required this.onChanged,
+  }) : super(key: key);
+
+  @override
+  State<NumberPicker> createState() => _NumberPickerState();
+}
+
+class _NumberPickerState extends State<NumberPicker> {
+  late int _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          icon: const Icon(Icons.remove),
+          onPressed: () {
+            setState(() {
+              if (_value > widget.minValue) {
+                _value--;
+                widget.onChanged(_value);
+              }
+            });
+          },
+        ),
+        Text('$_value'),
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () {
+            setState(() {
+              if (_value < widget.maxValue) {
+                _value++;
+                widget.onChanged(_value);
+              }
+            });
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class MySelectionItem extends StatelessWidget {
+  final String title;
+  final bool isForList;
+
+  const MySelectionItem(
+      {super.key, required this.title, this.isForList = true});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: isForList ? 16.0 : 0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey,
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.circular(6.0),
+        ),
+        padding: const EdgeInsets.all(8),
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 20),
+        ),
+      ),
+    );
+  }
+}
+
+Widget buildCategoryWidget(
+  String category,
+  List<Event> events,
+  bool hasEvents,
+  Employee emp,
+) {
+  return ExpansionTile(
+    initiallyExpanded: hasEvents && category == "A revisar",
+    title: Row(
+      children: [
+        if (category == "A revisar" && hasEvents)
+          const Icon(Icons.warning, color: Colors.red),
+        const SizedBox(width: 8),
+        Text(
+          category,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+    children: [
+      if (!hasEvents)
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0),
+          child: Text("No hay eventos disponibles"),
+        ),
+      ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: events.length,
+        itemBuilder: (context, index) {
+          final event = events[index];
+          final isEvenItem = index % 2 == 0;
+          final backgroundColor = isEvenItem ? Colors.white : Colors.grey[200];
+          final canEditEvent = category !=
+              "Revisados"; // Permitir editar solo en categorías diferentes a "Revisados"
+          return Container(
+            color: backgroundColor,
+            child: ListTile(
+              title: Text(
+                event.place,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                DateFormat('dd-MM-yyyy').format(event.date),
+              ),
+              trailing: canEditEvent
+                  ? IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UpdateEvent(event: event, emp: emp),
+                            ));
+                      },
+                    )
+                  : IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
+                      onPressed: () {
+                        deleteEvent(event.id!);
+                      },
+                    ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ClerkEventView(event: event, emp: emp),
+                    ));
+              },
+            ),
+          );
+        },
+      ),
+    ],
   );
 }

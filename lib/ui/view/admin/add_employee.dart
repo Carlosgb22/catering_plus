@@ -152,6 +152,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                             ? MediaQuery.of(context).size.width * 0.8
                             : MediaQuery.of(context).size.width * 0.15,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: _phoneController,
                           style: const TextStyle(fontSize: 18),
                           decoration: InputDecoration(
@@ -169,6 +170,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                             ? MediaQuery.of(context).size.width * 0.8
                             : MediaQuery.of(context).size.width * 0.15,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: _ssController,
                           style: const TextStyle(fontSize: 18),
                           decoration: InputDecoration(
