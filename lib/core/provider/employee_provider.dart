@@ -13,6 +13,7 @@ Future<List<Employee>> getAllEmployees(int idCatering) {
 
 deleteEmployee(String dni) {
   deleteEmployeeHttp(dni);
+  deleteLogin(dni);
 }
 
 updateEmployee(Employee employee) {

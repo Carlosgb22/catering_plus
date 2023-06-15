@@ -57,167 +57,170 @@ class _UpdateProfileState extends State<UpdateProfile> {
       appBar: AppBar(
         title: const Text("Datos del Empleado"),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //DATOS
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Información del Empleado",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                //DATOS
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Información del Empleado",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.person,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          const SizedBox(width: 8),
-                          SizedBox(
-                            width: Platform.isAndroid || Platform.isIOS
-                                ? MediaQuery.of(context).size.width * 0.7
-                                : MediaQuery.of(context).size.width * 0.15,
-                            child: TextField(
-                              controller: _nameController,
-                              style: const TextStyle(
-                                fontSize: 18,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: "Nombre",
-                                errorText:
-                                    _nameError.isNotEmpty ? _nameError : null,
-                              ),
-                              onChanged: (_) => _validateForm(),
-                              maxLength: 50,
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.person,
+                              color: Theme.of(context).primaryColor,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.person,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          const SizedBox(width: 8),
-                          SizedBox(
-                            width: Platform.isAndroid || Platform.isIOS
-                                ? MediaQuery.of(context).size.width * 0.7
-                                : MediaQuery.of(context).size.width * 0.15,
-                            child: TextField(
-                              controller: _familyNameController,
-                              style: const TextStyle(
-                                fontSize: 18,
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: Platform.isAndroid || Platform.isIOS
+                                  ? MediaQuery.of(context).size.width * 0.7
+                                  : MediaQuery.of(context).size.width * 0.15,
+                              child: TextField(
+                                controller: _nameController,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: "Nombre",
+                                  errorText:
+                                      _nameError.isNotEmpty ? _nameError : null,
+                                ),
+                                onChanged: (_) => _validateForm(),
+                                maxLength: 50,
                               ),
-                              decoration: InputDecoration(
-                                labelText: "Apellidos",
-                                errorText: _familyNameError.isNotEmpty
-                                    ? _familyNameError
-                                    : null,
-                              ),
-                              onChanged: (_) => _validateForm(),
-                              maxLength: 50,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        "DNI: ${_emp.dni}",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: Platform.isAndroid || Platform.isIOS
-                            ? MediaQuery.of(context).size.width * 0.8
-                            : MediaQuery.of(context).size.width * 0.15,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: _phoneController,
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.person,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: Platform.isAndroid || Platform.isIOS
+                                  ? MediaQuery.of(context).size.width * 0.7
+                                  : MediaQuery.of(context).size.width * 0.15,
+                              child: TextField(
+                                controller: _familyNameController,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: "Apellidos",
+                                  errorText: _familyNameError.isNotEmpty
+                                      ? _familyNameError
+                                      : null,
+                                ),
+                                onChanged: (_) => _validateForm(),
+                                maxLength: 50,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "DNI: ${_emp.dni}",
                           style: const TextStyle(
                             fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
-                          decoration: InputDecoration(
-                            labelText: "Telefono",
-                            errorText:
-                                _phoneError.isNotEmpty ? _phoneError : null,
-                          ),
-                          onChanged: (_) => _validateForm(),
-                          maxLength: 9,
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: Platform.isAndroid || Platform.isIOS
-                            ? MediaQuery.of(context).size.width * 0.8
-                            : MediaQuery.of(context).size.width * 0.15,
-                        child: TextField(
-                          controller: _ssController,
-                          style: const TextStyle(
-                            fontSize: 18,
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: Platform.isAndroid || Platform.isIOS
+                              ? MediaQuery.of(context).size.width * 0.8
+                              : MediaQuery.of(context).size.width * 0.15,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            controller: _phoneController,
+                            style: const TextStyle(
+                              fontSize: 18,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Telefono",
+                              errorText:
+                                  _phoneError.isNotEmpty ? _phoneError : null,
+                            ),
+                            onChanged: (_) => _validateForm(),
+                            maxLength: 9,
                           ),
-                          decoration: InputDecoration(
-                            labelText: "SS",
-                            errorText: _ssError.isNotEmpty ? _ssError : null,
-                          ),
-                          onChanged: (_) => _validateForm(),
-                          maxLength: 12,
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: Platform.isAndroid || Platform.isIOS
+                              ? MediaQuery.of(context).size.width * 0.8
+                              : MediaQuery.of(context).size.width * 0.15,
+                          child: TextField(
+                            controller: _ssController,
+                            style: const TextStyle(
+                              fontSize: 18,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "SS",
+                              errorText: _ssError.isNotEmpty ? _ssError : null,
+                            ),
+                            onChanged: (_) => _validateForm(),
+                            maxLength: 12,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              //BOTON
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                const SizedBox(height: 16),
+                //BOTON
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 24),
+                  ),
+                  onPressed: _isFormValid
+                      ? () {
+                          _emp.name = _nameController.text;
+                          _emp.familyName = _familyNameController.text;
+                          _emp.phone = int.parse(_phoneController.text);
+                          _emp.ss = int.parse(_ssController.text);
+                          updateEmployee(_emp);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EmployeeView(emp: _emp)),
+                              (route) => false);
+                        }
+                      : null,
+                  child: const Text(
+                    "Guardar datos",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-                onPressed: _isFormValid
-                    ? () {
-                        _emp.name = _nameController.text;
-                        _emp.familyName = _familyNameController.text;
-                        _emp.phone = int.parse(_phoneController.text);
-                        _emp.ss = int.parse(_ssController.text);
-                        updateEmployee(_emp);
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EmployeeView(emp: _emp)),
-                            (route) => false);
-                      }
-                    : null,
-                child: const Text(
-                  "Guardar datos",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

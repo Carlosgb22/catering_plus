@@ -26,7 +26,6 @@ class AddEvent extends StatefulWidget {
 class _AddEventState extends State<AddEvent> {
   late SharedPreferences sharedPreferences;
   late Employee emp;
-  late Event event;
   late DateTime selectedDate;
   List<String> places = [];
   late String place;
@@ -416,10 +415,9 @@ class _AddEventState extends State<AddEvent> {
       );
       return; // Detener el flujo de ejecución
     }
-
-    event = Event(
+    Event event = Event(
       idCatering: emp.idCatering,
-      date: event.date = DateTime.parse(
+      date: DateTime.parse(
           DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(selectedDate)),
       phone1: int.tryParse(phone1Controller.text) ?? 0,
       place: place,
@@ -430,14 +428,12 @@ class _AddEventState extends State<AddEvent> {
     );
     event.phone2 = int.tryParse(phone2Controller.text) ?? 0;
     var id = await addEvent(event);
-
     for (int i = 0; i < selectedEmployees.length; i++) {
       final employee = selectedEmployees[i];
       final master = isMaster[i];
       final assembly = isAssembly[i];
       final service = isService[i];
       final openBar = isOpenBar[i];
-
       await addWork(Work(
         dni: employee.dni,
         eventId: id,
@@ -448,7 +444,6 @@ class _AddEventState extends State<AddEvent> {
         openBar: openBar ? 1 : 0,
       ));
     }
-
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => Clerk(emp: emp)),

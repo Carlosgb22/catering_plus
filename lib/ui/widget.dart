@@ -10,8 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:catering_plus/core/models/employee_model.dart';
-import 'package:catering_plus/core/provider/login_provider.dart';
-import 'package:catering_plus/ui/view/admin/admin_ini.dart';
 import 'package:catering_plus/ui/view/admin/manage_emp_profile.dart';
 import 'package:catering_plus/ui/view/employee/event_view.dart';
 
@@ -90,7 +88,7 @@ class EmployeeButton extends StatelessWidget {
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Admin(emp: emp),
+                                builder: (context) => const Login(),
                               ),
                               (route) => false);
                           deleteEmployee(employee.dni);
@@ -100,11 +98,6 @@ class EmployeeButton extends StatelessWidget {
                     ],
                   ),
                 );
-
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Admin(emp: emp)),
-                    (route) => false);
               },
             ),
           ],
@@ -148,12 +141,34 @@ class EmployeeButton extends StatelessWidget {
               ),
               //Cuando pulsas la papelera se borra el empleado indicado
               onPressed: () {
-                deleteEmployee(employee.dni);
-                deleteLogin(employee.dni);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Admin(emp: emp)),
-                    (route) => false);
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Error'),
+                    content: const Text(
+                        '¿Está seguro de que desea borrar este empleado?.\nEsta accion es irreversible'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancelar'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Login(),
+                              ),
+                              (route) => false);
+                          deleteEmployee(employee.dni);
+                        },
+                        child: const Text('Aceptar'),
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
           ],

@@ -1,16 +1,18 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, use_build_context_synchronously
 
 import 'package:catering_plus/core/models/employee_model.dart';
 import 'package:catering_plus/core/provider/event_provider.dart';
 import 'package:catering_plus/core/provider/place_provider.dart';
 import 'package:catering_plus/core/services/employee_service.dart';
 import 'package:catering_plus/ui/view/clerk/clerk_ini.dart';
+import 'package:catering_plus/ui/view/clerk/update_event_works.dart';
 import 'package:direct_select/direct_select.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/models/event_model.dart';
+import '../../../core/models/work_model.dart';
 import '../../widget.dart';
 
 class UpdateEvent extends StatefulWidget {
@@ -35,6 +37,14 @@ class _UpdateEventState extends State<UpdateEvent> {
   late TextEditingController dateController;
   late bool revised;
   List<String> places = [];
+  List<Employee> excludedEmployees = [];
+  List<Employee> selectedEmployees = [];
+  List<Employee> addedEmployees = [];
+  List<bool> isMaster = [];
+  List<bool> isAssembly = [];
+  List<bool> isService = [];
+  List<bool> isOpenBar = [];
+  List<Work> works = [];
 
   @override
   void initState() {
@@ -173,15 +183,37 @@ class _UpdateEventState extends State<UpdateEvent> {
                   });
                 },
               ),
-              const SizedBox(height: 20),
-              buildCheckboxRow(
-                'Revisado',
-                revised,
-                onChanged: (value) {
-                  setState(() {
-                    revised = value;
-                  });
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildCheckboxRow(
+                    'Revisado',
+                    revised,
+                    onChanged: (value) {
+                      setState(() {
+                        revised = value;
+                      });
+                    },
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UpdateWorks(
+                                    eventId: event.id!,
+                                    emp: widget.emp,
+                                  )));
+                    },
+                    child: Text(
+                      'Ver Empleados',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 20,
+                          color: Theme.of(context).primaryColor),
+                    ),
+                  )
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -295,7 +327,6 @@ class _UpdateEventState extends State<UpdateEvent> {
                       sharedPreferences = await SharedPreferences.getInstance();
                       emp = await getEmployeeByIdHttp(
                           sharedPreferences.getString('dni'));
-                      // ignore: use_build_context_synchronously
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

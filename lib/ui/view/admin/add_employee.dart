@@ -53,198 +53,201 @@ class _AddEmployeeState extends State<AddEmployee> {
       appBar: AppBar(
         title: const Text("Añadir Empleado"),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //DATOS
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Información del Empleado",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                //DATOS
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Información del Empleado",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.person,
-                              color: Theme.of(context).primaryColor),
-                          const SizedBox(width: 8),
-                          SizedBox(
-                            width: Platform.isAndroid || Platform.isIOS
-                                ? MediaQuery.of(context).size.width * 0.7
-                                : MediaQuery.of(context).size.width * 0.15,
-                            child: TextField(
-                              controller: _nameController,
-                              style: const TextStyle(fontSize: 20),
-                              decoration: InputDecoration(
-                                labelText: "Nombre",
-                                errorText:
-                                    _nameError.isNotEmpty ? _nameError : null,
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.person,
+                                color: Theme.of(context).primaryColor),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: Platform.isAndroid || Platform.isIOS
+                                  ? MediaQuery.of(context).size.width * 0.7
+                                  : MediaQuery.of(context).size.width * 0.15,
+                              child: TextField(
+                                controller: _nameController,
+                                style: const TextStyle(fontSize: 20),
+                                decoration: InputDecoration(
+                                  labelText: "Nombre",
+                                  errorText:
+                                      _nameError.isNotEmpty ? _nameError : null,
+                                ),
+                                onChanged: (_) => _validateForm(),
+                                maxLength: 50,
                               ),
-                              onChanged: (_) => _validateForm(),
-                              maxLength: 50,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.person,
-                              color: Theme.of(context).primaryColor),
-                          const SizedBox(width: 8),
-                          SizedBox(
-                            width: Platform.isAndroid || Platform.isIOS
-                                ? MediaQuery.of(context).size.width * 0.7
-                                : MediaQuery.of(context).size.width * 0.15,
-                            child: TextField(
-                              controller: _familyNameController,
-                              style: const TextStyle(fontSize: 20),
-                              decoration: InputDecoration(
-                                labelText: "Apellidos",
-                                errorText: _familyNameError.isNotEmpty
-                                    ? _familyNameError
-                                    : null,
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.person,
+                                color: Theme.of(context).primaryColor),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: Platform.isAndroid || Platform.isIOS
+                                  ? MediaQuery.of(context).size.width * 0.7
+                                  : MediaQuery.of(context).size.width * 0.15,
+                              child: TextField(
+                                controller: _familyNameController,
+                                style: const TextStyle(fontSize: 20),
+                                decoration: InputDecoration(
+                                  labelText: "Apellidos",
+                                  errorText: _familyNameError.isNotEmpty
+                                      ? _familyNameError
+                                      : null,
+                                ),
+                                onChanged: (_) => _validateForm(),
+                                maxLength: 50,
                               ),
-                              onChanged: (_) => _validateForm(),
-                              maxLength: 50,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: Platform.isAndroid || Platform.isIOS
-                            ? MediaQuery.of(context).size.width * 0.8
-                            : MediaQuery.of(context).size.width * 0.15,
-                        child: TextField(
-                          controller: _dniController,
-                          style: const TextStyle(fontSize: 20),
-                          decoration: InputDecoration(
-                            labelText: "DNI",
-                            errorText: _dniError.isNotEmpty ? _dniError : null,
-                          ),
-                          onChanged: (_) => _validateForm(),
-                          maxLength: 9,
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: Platform.isAndroid || Platform.isIOS
-                            ? MediaQuery.of(context).size.width * 0.8
-                            : MediaQuery.of(context).size.width * 0.15,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: _phoneController,
-                          style: const TextStyle(fontSize: 18),
-                          decoration: InputDecoration(
-                            labelText: "Telefono",
-                            errorText:
-                                _phoneError.isNotEmpty ? _phoneError : null,
-                          ),
-                          onChanged: (_) => _validateForm(),
-                          maxLength: 9,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: Platform.isAndroid || Platform.isIOS
-                            ? MediaQuery.of(context).size.width * 0.8
-                            : MediaQuery.of(context).size.width * 0.15,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: _ssController,
-                          style: const TextStyle(fontSize: 18),
-                          decoration: InputDecoration(
-                            labelText: "SS",
-                            errorText: _ssError.isNotEmpty ? _ssError : null,
-                          ),
-                          onChanged: (_) => _validateForm(),
-                          maxLength: 12,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.work,
-                              color: Theme.of(context).primaryColor),
-                          const SizedBox(width: 8),
-                          const Text(
-                            "Gestor",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: Platform.isAndroid || Platform.isIOS
+                              ? MediaQuery.of(context).size.width * 0.8
+                              : MediaQuery.of(context).size.width * 0.15,
+                          child: TextField(
+                            controller: _dniController,
+                            style: const TextStyle(fontSize: 20),
+                            decoration: InputDecoration(
+                              labelText: "DNI",
+                              errorText:
+                                  _dniError.isNotEmpty ? _dniError : null,
                             ),
+                            onChanged: (_) => _validateForm(),
+                            maxLength: 9,
                           ),
-                          const SizedBox(width: 8),
-                          Checkbox(
-                            value: _isClerk,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _isClerk = value ?? false;
-                              });
-                            },
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: Platform.isAndroid || Platform.isIOS
+                              ? MediaQuery.of(context).size.width * 0.8
+                              : MediaQuery.of(context).size.width * 0.15,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            controller: _phoneController,
+                            style: const TextStyle(fontSize: 18),
+                            decoration: InputDecoration(
+                              labelText: "Telefono",
+                              errorText:
+                                  _phoneError.isNotEmpty ? _phoneError : null,
+                            ),
+                            onChanged: (_) => _validateForm(),
+                            maxLength: 9,
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: Platform.isAndroid || Platform.isIOS
+                              ? MediaQuery.of(context).size.width * 0.8
+                              : MediaQuery.of(context).size.width * 0.15,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            controller: _ssController,
+                            style: const TextStyle(fontSize: 18),
+                            decoration: InputDecoration(
+                              labelText: "SS",
+                              errorText: _ssError.isNotEmpty ? _ssError : null,
+                            ),
+                            onChanged: (_) => _validateForm(),
+                            maxLength: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.work,
+                                color: Theme.of(context).primaryColor),
+                            const SizedBox(width: 8),
+                            const Text(
+                              "Gestor",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Checkbox(
+                              value: _isClerk,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _isClerk = value ?? false;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              //BOTON
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                const SizedBox(height: 16),
+                //BOTON
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 24),
+                  ),
+                  onPressed: _isFormValid
+                      ? () {
+                          Employee employee = Employee(
+                              dni: _dniController.text,
+                              idCatering: 1,
+                              name: _nameController.text,
+                              familyName: _familyNameController.text,
+                              phone: int.parse(_phoneController.text),
+                              ss: int.parse(_ssController.text),
+                              clerk: _isClerk ? 1 : 0,
+                              admin: 0);
+                          addEmployee(employee);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Admin(emp: _emp),
+                            ),
+                          );
+                        }
+                      : null,
+                  child: const Text(
+                    "Guardar datos",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-                onPressed: _isFormValid
-                    ? () {
-                        Employee employee = Employee(
-                            dni: _dniController.text,
-                            idCatering: 1,
-                            name: _nameController.text,
-                            familyName: _familyNameController.text,
-                            phone: int.parse(_phoneController.text),
-                            ss: int.parse(_ssController.text),
-                            clerk: _isClerk ? 1 : 0,
-                            admin: 0);
-                        addEmployee(employee);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Admin(emp: _emp),
-                          ),
-                        );
-                      }
-                    : null,
-                child: const Text(
-                  "Guardar datos",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

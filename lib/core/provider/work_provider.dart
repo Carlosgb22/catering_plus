@@ -22,7 +22,7 @@ Future<List<Work>> getAllWorks(String dni) {
 }
 
 Future<List<Work>> getAllWorksId(int id) {
-  return getAllWorksHttp(id);
+  return getAllWorksIdHttp(id);
 }
 
 deleteWork(String dni, int id) {
