@@ -115,6 +115,7 @@ class _EmployeeState extends State<EmployeeView> {
                             )
                           : Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text('Nombre: ${emp.name}',
                                     style: const TextStyle(fontSize: 20)),
@@ -164,9 +165,11 @@ class _EmployeeState extends State<EmployeeView> {
                   final pastEvents = snapshot.data!
                       .where((event) => event.date.isBefore(now))
                       .toList();
-                  if (upcomingEvents.isNotEmpty) {
-                    showOverlayMessage('Tienes eventos proximos');
-                  }
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (upcomingEvents.isNotEmpty) {
+                      showOverlayMessage('Tienes eventos proximos');
+                    }
+                  });
                   return ListView(
                     children: [
                       Column(
