@@ -33,6 +33,43 @@ class _ClerkState extends State<Clerk> {
     emp = widget.emp;
   }
 
+  void showOverlayMessage(String message) {
+    OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: MediaQuery.of(context).padding.top + 16.0,
+        left: 16.0,
+        right: 16.0,
+        child: Material(
+          elevation: 4.0,
+          borderRadius: BorderRadius.circular(8.0),
+          child: Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Text(
+              message,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(overlayEntry);
+
+    // Espera 5 segundos y luego remueve el overlay
+    Future.delayed(const Duration(seconds: 5), () {
+      overlayEntry.remove();
+    });
+  }
+
   List<Event> getEventsByCategory(List<Event> events, int revised) {
     final filteredEvents = events.where((event) {
       if (revised == 0) {
@@ -75,6 +112,11 @@ class _ClerkState extends State<Clerk> {
             final eventsToReview = getEventsByCategory(events, 0).toList();
             final upcomingEvents = getEventsByCategory(events, -1).toList();
             final reviewedEvents = getEventsByCategory(events, 1).toList();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (eventsToReview.isNotEmpty) {
+                showOverlayMessage('Hay eventos para revisar');
+              }
+            });
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
