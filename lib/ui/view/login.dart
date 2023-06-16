@@ -81,10 +81,47 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.all(10),
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (await login(
-                            dniController.text, passwordController.text)) {
-                          Employee emp = await getEmployee(dniController.text);
+                        String dni = dniController.text.trim();
+                        String password = passwordController.text;
+
+                        if (!validateDNIFormat(dni)) {
+                          // Mostrar mensaje de error indicando que el formato del DNI es incorrecto
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Error'),
+                              content: const Text(
+                                  'El formato del DNI es incorrecto.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Aceptar'),
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        }
+
+                        if (await login(dni, password)) {
+                          Employee emp = await getEmployee(dni);
                           redirectLogin(emp, context);
+                        } else {
+                          // Mostrar mensaje indicando que las credenciales son incorrectas
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Error'),
+                              content: const Text(
+                                  'Las credenciales son incorrectas.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Aceptar'),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       },
                       child: const Text("Entrar"),
@@ -129,4 +166,25 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+}
+
+bool validateDNIFormat(String dni) {
+  // Verificar que la longitud sea de 9 caracteres (8 dígitos + 1 letra)
+  if (dni.length != 9) {
+    return false;
+  }
+
+  // Verificar que los primeros 8 caracteres sean dígitos numéricos
+  String dniNumbers = dni.substring(0, 8);
+  if (!RegExp(r'^\d{8}$').hasMatch(dniNumbers)) {
+    return false;
+  }
+
+  // Verificar que el último caracter sea una letra (mayúscula o minúscula)
+  String dniLetter = dni.substring(8).toUpperCase();
+  if (!RegExp(r'^[A-Z]$').hasMatch(dniLetter)) {
+    return false;
+  }
+
+  return true;
 }
