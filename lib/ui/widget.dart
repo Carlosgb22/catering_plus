@@ -144,7 +144,7 @@ class EmployeeButton extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Error'),
+                    title: const Text('Atención'),
                     content: const Text(
                         '¿Está seguro de que desea borrar este empleado?.\nEsta accion es irreversible'),
                     actions: [
@@ -567,7 +567,7 @@ Widget buildCategoryWidget(
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('Error'),
+                            title: const Text('Atención'),
                             content: const Text(
                                 '¿Está seguro de que desea borrar este evento?.\nEsta accion es irreversible'),
                             actions: [

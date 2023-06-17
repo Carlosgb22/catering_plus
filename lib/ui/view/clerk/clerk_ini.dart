@@ -188,7 +188,7 @@ class _ClerkState extends State<Clerk> {
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                title: const Text('Error'),
+                                title: const Text('Atención'),
                                 content: const Text(
                                     '¿Está seguro de que desea borrar este lugar?.\nEsta accion es irreversible'),
                                 actions: [
